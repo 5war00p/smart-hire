@@ -18,7 +18,7 @@ const messageList = [
 ];
 
 const ChatContainer = () => {
-  if (messageList.length !== 0) {
+  if (messageList.length === 0) {
     return (
       <>
         <span className="m-auto">
