@@ -16,7 +16,8 @@ export default function Home() {
           <div className="cursor-pointer absolute inset-y-0 right-0 flex items-center pr-3">
             <button
               type="button"
-              className="rounded-lg bg-indigo-600 p-2 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              disabled
+              className="rounded-lg disabled:bg-gray-300 bg-indigo-600 p-2 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               <IconReturn className="w-6 h-6 fill-white" />
             </button>

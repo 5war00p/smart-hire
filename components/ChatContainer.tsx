@@ -1,3 +1,4 @@
+import MessageCard from "./MessageCard";
 import Suggestions from "./Suggestions";
 import IconSparkle from "./icons/IconSparkle";
 import IconUser from "./icons/IconUser";
@@ -15,6 +16,19 @@ const messageList = [
     senderName: "You",
     content: "Give me exact number",
   },
+  {
+    senderName: "You",
+    content: {
+      info: {
+        bio: "",
+        expectedPartTimeSalary: "",
+        expectedFullTimeSalary: "",
+      },
+      projects: [],
+      skills: [],
+      workExperiences: [],
+    },
+  },
 ];
 
 const ChatContainer = () => {
@@ -31,7 +45,7 @@ const ChatContainer = () => {
   }
   return (
     <div className="w-full h-[calc(100vh-130px)] overflow-y-scroll no-scrollbar">
-      <div className="space-y-8 mx-8 mt-4">
+      <div className="space-y-8 mx-8 my-4">
         {messageList.map((message, index) => (
           <div key={index} className="flex gap-2 w-full items-start">
             {message.senderName === "AI" ? (
@@ -45,7 +59,11 @@ const ChatContainer = () => {
             )}
             <span>
               <p className="font-semibold">{message.senderName}</p>
-              <p>{message.content}</p>
+              {typeof message.content === "string" ? (
+                <p>{message.content}</p>
+              ) : (
+                <MessageCard details={message.content} />
+              )}
             </span>
           </div>
         ))}
