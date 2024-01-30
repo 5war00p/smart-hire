@@ -2,24 +2,21 @@
 import ChatContainer from "@/components/ChatContainer";
 import IconReturn from "@/components/icons/IconReturn";
 
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { useSendChat } from "@/hooks/useSendChat";
 import { useAppState } from "@/hooks/useAppContext";
+import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 
 const Main = () => {
   const [appState, setAppState] = useAppState();
   const { data, refetch } = useSendChat(
-    { prompt: appState.query },
-    { enabled: false, refetchOnMount: false, refetchOnWindowFocus: false }
+    { chat: appState.chat as unknown as ChatCompletionMessageParam },
+    {
+      enabled: false,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    }
   );
-
-  const handleSubmit = useCallback(() => {
-    refetch();
-    setAppState((prev) => ({
-      query: "",
-      chat: [...prev.chat, { role: "user", content: appState.query }],
-    }));
-  }, [appState.query]);
 
   useEffect(() => {
     if (data && "result" in data)
@@ -47,7 +44,17 @@ const Main = () => {
             type="button"
             disabled={!appState.query}
             className="rounded-lg disabled:bg-gray-300 bg-indigo-600 p-2 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={() => handleSubmit()}
+            onClick={() => {
+              setAppState((prev) => ({
+                ...prev,
+                chat: [...prev.chat, { role: "user", content: appState.query }],
+              }));
+              refetch();
+              setAppState((prev) => ({
+                ...prev,
+                query: "",
+              }));
+            }}
           >
             <IconReturn className="w-6 h-6 fill-white" />
           </button>

@@ -1,7 +1,8 @@
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
+import { ChatCompletionMessageParam } from "openai/resources/chat/index.mjs";
 
 export const useSendChat = (
-  data: { prompt: string },
+  data: { chat: ChatCompletionMessageParam },
   options?: Pick<
     UseQueryOptions,
     "enabled" | "refetchOnMount" | "refetchOnReconnect" | "refetchOnWindowFocus"
