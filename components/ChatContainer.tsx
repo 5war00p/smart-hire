@@ -1,23 +1,13 @@
 "use client";
-import { useSendChat } from "@/hooks/useSendChat";
 import MessageCard from "./MessageCard";
 import Suggestions from "./Suggestions";
 import IconSparkle from "./icons/IconSparkle";
 import IconUser from "./icons/IconUser";
-import { FC, useState } from "react";
-import { Message } from "@/utils/types";
-import IconReturn from "./icons/IconReturn";
+import { FC } from "react";
+import { Chat } from "@/utils/types";
 
-const ChatContainer: FC<{ query: string }> = ({ query }) => {
-  const [newMessage, setNewMessage] = useState<Message>();
-  const { data: messageList } = useSendChat(
-    { chat: [{ role: "user", content: query }] },
-    { enabled: !!query }
-  );
-
-  console.log(">>> messageList", messageList);
-
-  if (!messageList) {
+const ChatContainer: FC<{ messageList: Chat }> = ({ messageList }) => {
+  if (messageList.length === 0) {
     return (
       <>
         <span className="m-auto">
@@ -32,7 +22,7 @@ const ChatContainer: FC<{ query: string }> = ({ query }) => {
   return (
     <div className="w-full h-[calc(100vh-130px)] overflow-y-scroll no-scrollbar">
       <div className="space-y-8 mx-8 my-4">
-        {(messageList ?? []).map((message, index) => (
+        {messageList.map((message, index) => (
           <div key={index} className="flex gap-2 w-full items-start">
             {message.role === "system" ? (
               <span className="w-7 h-7 rounded-full bg-amber-400 p-1">
@@ -44,7 +34,9 @@ const ChatContainer: FC<{ query: string }> = ({ query }) => {
               </span>
             )}
             <span>
-              <p className="font-semibold">{message.role}</p>
+              <p className="font-semibold">
+                {message.role === "system" ? "Assistant" : "You"}
+              </p>
               {typeof message.content === "string" ? (
                 <p>{message.content}</p>
               ) : (

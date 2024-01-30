@@ -1,11 +1,10 @@
-import { Chat, Message } from "@/utils/types";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 
 export const useSendChat = (
-  data: { chat: Chat },
+  data: { prompt: string },
   options?: Pick<
     UseQueryOptions,
-    "enabled" | "refetchOnMount" | "refetchOnReconnect"
+    "enabled" | "refetchOnMount" | "refetchOnReconnect" | "refetchOnWindowFocus"
   >
 ) => {
   const queryData = useQuery({
@@ -18,5 +17,5 @@ export const useSendChat = (
     ...options,
   });
 
-  return { ...queryData, data: queryData.data as Message[] };
+  return queryData;
 };

@@ -1,3 +1,4 @@
+import { useAppState } from "@/hooks/useAppContext";
 import IconReturn from "./icons/IconReturn";
 
 const suggestionList = [
@@ -19,12 +20,20 @@ const suggestionList = [
   },
 ];
 const Suggestions = () => {
+  const [_, setAppState] = useAppState();
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
       {suggestionList.map((suggestion, index) => (
         <div
           key={index}
           className="relative rounded-lg border text-sm p-4 hover:cursor-pointer group hover:bg-gray-100"
+          onClick={() =>
+            setAppState((prev) => ({
+              ...prev,
+              query: `${suggestion.title} ${suggestion.description}`,
+            }))
+          }
         >
           <p className="font-medium text-ellipsis">{suggestion.title}</p>
           <p className="text-gray-400 text-ellipsis">
