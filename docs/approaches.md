@@ -29,7 +29,7 @@ Duties:
 - Embed the query using Background Worker API
 - Use existing pinecone index that was created by Background Worker to query the Vector database
 - Showing results in card view that are obtained from Vector database
-- Consecutive questions based on entered query. For example,
+- Chat agent that helps in consecutive questions based on entered query. For example,
 
   1.  “I want to hire someone with experience in Python and Node. My budget is $10000 a month.”
       - The chatbot follows up asking whether the user wants a full-time or part-time worker after showing some results
@@ -58,7 +58,7 @@ Duties:
 - Embed the query using external APIs
 - Use existing Vector DB Index that was created at the time of embeddings to query the Vector DB
 - Showing results in card view that are obtained from Vector database
-- Consecutive questions based on entered query. For example,
+- Chat agent that helps in consecutive questions based on entered query. For example,
 
   1.  “I want to hire someone with experience in Python and Node. My budget is $10000 a month.”
       - The chatbot follows up asking whether the user wants a full-time or part-time worker after showing some results
