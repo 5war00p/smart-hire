@@ -1,3 +1,5 @@
+This document encompasses various ideas aimed at enhancing performance across multiple dimensions, including Semantic Search, leveraging Vector DB and Data Structures, implementing SSR, deploying at Edge nodes, and achieving Real-time syncing.
+
 ## Realtime Syncing
 
 - [ ] Instead of simply pulling entire data and filtering we can maintain _**checkpoints**_ and fetch only after data. This reduces overall time on getting new data.
@@ -16,13 +18,15 @@
 ## Vector Database
 
 - [ ] Using downloaded model instead of making an API call to the service every time reduces the latency. We can download and save it in AWS EC2 where code is hosted and use whenever required.
-  We can download and save the embedding model, like below:
+      We can download and save the embedding model, like below:
+
   ```python
    from sentence_transformers import SentenceTransformer
    model = SentenceTransformer('thenlper/gte-small')
 
    model.save("./models/gte-small")
-  ``` 
+  ```
+
 - [ ] Approximate Search instead of Exhaustive Search
 - [ ] Single stage filtering - to search across a column.
   - For example give me who fall under $10,000 budget, will have a column filter (BUDGET < 10,000>)
