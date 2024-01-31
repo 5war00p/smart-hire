@@ -1,4 +1,4 @@
-import { DataTypes, UUID } from "sequelize";
+import { DataTypes } from "sequelize";
 import sequelize from "../app/_clients/sequelize";
 
 const MercorUserSkills = sequelize.define(
@@ -31,8 +31,4 @@ const MercorUserSkills = sequelize.define(
   }
 );
 
-console.log(MercorUserSkills === sequelize.models.MercorUserSkills); // true
-MercorUserSkills.findAll().then((skills) => {
-  console.log(skills.every((skill) => skill instanceof MercorUserSkills)); // true
-  console.log("All user skills:", JSON.stringify(skills, null, 2));
-});
+export default MercorUserSkills;

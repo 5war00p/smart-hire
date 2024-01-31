@@ -33,8 +33,4 @@ const PersonalInformation = sequelize.define(
   }
 );
 
-console.log(PersonalInformation === sequelize.models.PersonalInformation); // true
-PersonalInformation.findAll().then((infos) => {
-  console.log(infos.every((info) => info instanceof PersonalInformation)); // true
-  console.log("Personal Info's:", JSON.stringify(infos, null, 2));
-});
+export default PersonalInformation;

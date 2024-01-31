@@ -41,8 +41,4 @@ const Education = sequelize.define(
   }
 );
 
-console.log(Education === sequelize.models.Education); // true
-Education.findAll().then((educations) => {
-  console.log(educations.every((education) => education instanceof Education)); // true
-  console.log("Education's:", JSON.stringify(educations, null, 2));
-});
+export default Education;

@@ -1,6 +1,8 @@
 import openai from "@/app/_clients/openai";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 
+export const runtime = "edge";
+
 export async function POST(request: Request) {
   const requestBody = (await request.json()) as {
     chat: ChatCompletionMessageParam[];

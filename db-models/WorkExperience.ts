@@ -44,10 +44,4 @@ const WorkExperience = sequelize.define(
   }
 );
 
-console.log(WorkExperience === sequelize.models.WorkExperience); // true
-WorkExperience.findAll().then((workExpereinces) => {
-  console.log(
-    workExpereinces.every((expereince) => expereince instanceof WorkExperience)
-  ); // true
-  console.log("Work Experiences's:", JSON.stringify(workExpereinces, null, 2));
-});
+export default WorkExperience;

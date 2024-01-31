@@ -1,4 +1,4 @@
-import { DataTypes, UUID } from "sequelize";
+import { DataTypes } from "sequelize";
 import sequelize from "../app/_clients/sequelize";
 
 const Skills = sequelize.define(
@@ -25,8 +25,4 @@ const Skills = sequelize.define(
   }
 );
 
-console.log(Skills === sequelize.models.Skills); // true
-Skills.findAll().then((skills) => {
-  console.log(skills.every((skill) => skill instanceof Skills)); // true
-  console.log("All skills:", JSON.stringify(skills, null, 2));
-});
+export default Skills;

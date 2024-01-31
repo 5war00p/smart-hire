@@ -51,8 +51,4 @@ const UserResume = sequelize.define(
   }
 );
 
-console.log(UserResume === sequelize.models.UserResume); // true
-UserResume.findAll().then((resumes) => {
-  console.log(resumes.every((resume) => resume instanceof UserResume)); // true
-  console.log("Resume's:", JSON.stringify(resumes, null, 2));
-});
+export default UserResume;

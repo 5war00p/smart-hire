@@ -123,8 +123,4 @@ const MercorUsers = sequelize.define(
   }
 );
 
-console.log(MercorUsers === sequelize.models.MercorUsers); // true
-MercorUsers.findAll().then((users) => {
-  console.log(users.every((user) => user instanceof MercorUsers)); // true
-  console.log("All users:", JSON.stringify(users, null, 2));
-});
+export default MercorUsers;
