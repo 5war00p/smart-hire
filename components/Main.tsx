@@ -10,7 +10,12 @@ import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 const Main = () => {
   const [appState, setAppState] = useAppState();
   const { data, refetch } = useSendChat(
-    { chat: appState.chat as unknown as ChatCompletionMessageParam },
+    {
+      chat: [
+        ...appState.chat,
+        { role: "user", content: appState.query },
+      ] as unknown as ChatCompletionMessageParam,
+    },
     {
       enabled: false,
       refetchOnMount: false,

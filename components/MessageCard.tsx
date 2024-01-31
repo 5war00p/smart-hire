@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 
 const CandidateDetailsModal = dynamic(() => import("./CandidateDetailsModal"));
 
-const MessageCard: FC<{ details: Record<string, any> }> = ({ details }) => {
+const MessageCard: FC<{ details?: Record<string, any> }> = ({ details }) => {
   const [showDetails, setShowDetails] = useState(false);
 
   return (

@@ -24,7 +24,7 @@ const ChatContainer: FC<{ messageList: Chat }> = ({ messageList }) => {
       <div className="space-y-8 mx-8 my-4">
         {messageList.map((message, index) => (
           <div key={index} className="flex gap-2 w-full items-start">
-            {message.role === "system" ? (
+            {message.role === "assistant" ? (
               <span className="w-7 h-7 rounded-full bg-amber-400 p-1">
                 <IconSparkle className="w-5 h-5" />
               </span>
@@ -35,7 +35,7 @@ const ChatContainer: FC<{ messageList: Chat }> = ({ messageList }) => {
             )}
             <span>
               <p className="font-semibold">
-                {message.role === "system" ? "Assistant" : "You"}
+                {message.role === "assistant" ? "Assistant" : "You"}
               </p>
               {typeof message.content === "string" ? (
                 <p>{message.content}</p>
