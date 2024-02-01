@@ -1,6 +1,7 @@
 export interface Message {
   role: "assistant" | "user";
   content: string;
+  candidates?: string;
 }
 
 export interface Education {

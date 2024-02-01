@@ -4,6 +4,7 @@ import React, { Dispatch, SetStateAction, useContext } from "react";
 type ContextType = {
   query: string;
   chat: Chat;
+  responses: Record<number, string>;
 };
 
 export const AppStateContext = React.createContext<
@@ -16,6 +17,7 @@ export const AppStateContextProvider: React.FC<{
   const value = React.useState<ContextType>({
     query: "",
     chat: [],
+    responses: {},
   });
 
   return (

@@ -34,8 +34,10 @@ class Embedder {
           ...data, // Meta data will contain entire user data to show in the frontend
           fullTimeAvailability: data.fullTimeAvailability ?? "",
           partTimeAvailability: data.partTimeAvailability ?? "",
-          educations: JSON.stringify(data.educations),
-          workExperiences: JSON.stringify(data.workExperiences),
+          educations: data.educations ? JSON.stringify(data.educations) : "[]",
+          workExperiences: data.workExperiences
+            ? JSON.stringify(data.workExperiences)
+            : "[]",
         },
       } as PineconeRecord;
     } catch (error) {

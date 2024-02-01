@@ -1,7 +1,6 @@
 import {
   IndexModel,
   RecordMetadata,
-  ScoredPineconeRecord,
   Pinecone as pc,
 } from "@pinecone-database/pinecone";
 

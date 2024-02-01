@@ -24,13 +24,24 @@ const Main = () => {
   );
 
   useEffect(() => {
-    if (data && "result" in data)
-      setAppState((prev) => ({ ...prev, chat: [...prev.chat, data.result] }));
+    if (data && "content" in data && !!data.content) {
+      setAppState((prev) => ({
+        ...prev,
+        chat: [...prev.chat, { role: data.role, content: data.content }],
+        responses: {
+          ...prev.responses,
+          [prev.chat.length]: data.candidates,
+        },
+      }));
+    }
   }, [data]);
 
   return (
     <>
-      <ChatContainer messageList={appState.chat} />
+      <ChatContainer
+        messageList={appState.chat}
+        responses={appState.responses}
+      />
 
       {/* Input */}
       <div className="w-full relative mt-2 rounded-md shadow-sm">

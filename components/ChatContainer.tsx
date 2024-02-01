@@ -6,7 +6,10 @@ import IconUser from "./icons/IconUser";
 import { FC } from "react";
 import { Chat } from "@/utils/types";
 
-const ChatContainer: FC<{ messageList: Chat }> = ({ messageList }) => {
+const ChatContainer: FC<{
+  messageList: Chat;
+  responses: Record<number, string>;
+}> = ({ messageList, responses }) => {
   if (messageList.length === 0) {
     return (
       <>
@@ -33,16 +36,19 @@ const ChatContainer: FC<{ messageList: Chat }> = ({ messageList }) => {
                 <IconUser className="w-5 h-5" />
               </span>
             )}
-            <span>
+            <div>
               <p className="font-semibold">
                 {message.role === "assistant" ? "Assistant" : "You"}
               </p>
-              {typeof message.content === "string" ? (
+              <div className="flex flex-col gap-4">
                 <p>{message.content}</p>
-              ) : (
-                <MessageCard details={message.content} />
-              )}
-            </span>
+                {message.role === "assistant" &&
+                  !!responses[index] &&
+                  responses[index] !== "[]" && (
+                    <MessageCard stringifiedData={message.candidates} />
+                  )}
+              </div>
+            </div>
           </div>
         ))}
       </div>

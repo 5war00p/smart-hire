@@ -1,11 +1,33 @@
 "use client";
-import { FC, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
+import { UserData } from "@/utils/types";
 
 const CandidateDetailsModal = dynamic(() => import("./CandidateDetailsModal"));
 
-const MessageCard: FC<{ details?: Record<string, any> }> = ({ details }) => {
+const MessageCard: FC<{ stringifiedData?: string }> = ({ stringifiedData }) => {
   const [showDetails, setShowDetails] = useState(false);
+
+  const data = useMemo(() => {
+    if (stringifiedData) {
+      const candidatesData = JSON.parse(stringifiedData ?? "[]") as Array<
+        Record<string, any>
+      >;
+
+      return candidatesData.map((candidate) => ({
+        ...candidate,
+        workExperiences:
+          candidate.workExperiences !== ""
+            ? JSON.parse(candidate.workExperiences ?? [])
+            : [],
+        educations:
+          candidate.educations !== ""
+            ? JSON.parse(candidate.educations ?? [])
+            : [],
+      })) as UserData[];
+    }
+    return [];
+  }, [stringifiedData]);
 
   return (
     <>
