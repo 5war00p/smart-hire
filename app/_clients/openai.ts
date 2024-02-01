@@ -1,12 +1,12 @@
 import OpenAI from "openai";
 
 class OpenAi {
-  openai: OpenAI;
-  constructor() {
+  public openai: OpenAI;
+  public constructor() {
     this.openai = new OpenAI();
   }
 
-  async getEmbeddings(input: string) {
+  public async getEmbeddings(input: string) {
     try {
       const result = await this.openai.embeddings.create({
         model: "text-embedding-ada-002",

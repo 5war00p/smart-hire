@@ -1,5 +1,6 @@
 import {
   IndexModel,
+  RecordMetadata,
   ScoredPineconeRecord,
   Pinecone as pc,
 } from "@pinecone-database/pinecone";
@@ -7,15 +8,15 @@ import {
 export const indexName = "search-v1";
 
 class Pinecone {
-  pinecone: pc;
+  public pinecone: pc;
 
-  constructor() {
+  public constructor() {
     this.pinecone = new pc({
       apiKey: process.env.PINECONE_API_KEY ?? "",
     });
   }
 
-  async getIndex(): Promise<IndexModel> {
+  public async getIndex(): Promise<IndexModel> {
     const indexList = await this.pinecone.listIndexes();
 
     const prevIndex = indexList.indexes?.find(
@@ -33,16 +34,17 @@ class Pinecone {
             environment: "gcp-starter",
           },
         },
+        waitUntilReady: true,
       }) as unknown as IndexModel;
     }
     return prevIndex;
   }
 
   // The function `getMatchesFromEmbeddings` is used to retrieve matches for the given embeddings
-  async getMatchesFromEmbeddings(
+  public async getMatchesFromEmbeddings(
     embeddings: number[],
     topK: number
-  ): Promise<ScoredPineconeRecord[]> {
+  ): Promise<RecordMetadata[]> {
     const index = await this.getIndex();
 
     // Get the namespace
@@ -53,9 +55,18 @@ class Pinecone {
       const queryResult = await pineconeNamespace.query({
         vector: embeddings,
         topK,
+        includeValues: false,
         includeMetadata: true,
       });
-      return queryResult.matches || [];
+
+      let result: RecordMetadata[] = [];
+      queryResult.matches.forEach((match) => {
+        if (match.metadata) {
+          result.push(match.metadata);
+        }
+      });
+
+      return result || [];
     } catch (e) {
       throw new Error(`Error querying embeddings: ${e}`);
     }
