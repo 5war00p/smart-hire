@@ -94,7 +94,6 @@ const prepareUsers = async () => {
   ).map((each) => {
     delete each["educationId"];
     delete each["resumeId"];
-    delete each["userId"];
     delete each["personalInformationId"];
     delete each["workExperienceId"];
 
@@ -123,9 +122,15 @@ const prepareUsers = async () => {
     delete each["filename"];
     delete each["fullTimeSalaryCurrency"];
     delete each["partTimeSalaryCurrency"];
+    delete each["referralCode"];
 
+    each["location"] = !each.location
+      ? ""
+      : `${each.location.city}, ${each.location.country}`;
     return each;
   });
 
   return usersData;
 };
+
+prepareUsers().then(console.log);
