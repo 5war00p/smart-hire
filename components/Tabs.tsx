@@ -1,3 +1,4 @@
+import { UserData } from "@/utils/types";
 import { FC, useState } from "react";
 
 function classNames(...classes: string[]) {
@@ -10,56 +11,57 @@ const tabs = [
   { name: "Skills", id: 3 },
 ];
 
-const TabContent: FC<{ tab: number }> = ({ tab }) => {
+const TabContent: FC<{ tab: number; details: UserData }> = ({
+  tab,
+  details,
+}) => {
   switch (tab) {
     case 1:
       return (
         <div className="flex flex-col gap-4">
-          {Array.from(Array(4)).map((each) => (
+          {details.educations.map((education, index) => (
             <div
-              key={each}
+              key={index}
               className="border-[0.5px] border-gray-300 rounded-lg grid grid-cols-2 gap-2 p-6"
             >
               <span className="text-sm">
                 <label className="text-gray-400 font-medium text-xs">
                   Degree
                 </label>
-                <p>B.Tech</p>
+                <p>{education.degree || "-"}</p>
               </span>
 
               <span className="text-sm">
                 <label className="text-gray-400 font-medium text-xs">
                   Major
                 </label>
-                <p>Computer Science & Technology</p>
+                <p>{education.major || "-"}</p>
               </span>
 
               <span className="text-sm">
                 <label className="text-gray-400 font-medium text-xs">
                   Grade
                 </label>
-                <p>9.25</p>
+                <p>{education.grade || "-"}</p>
               </span>
 
               <span className="text-sm">
                 <label className="text-gray-400 font-medium text-xs">
                   From
                 </label>
-                <p>2022</p>
+                <p>{education.startDate || "-"}</p>
               </span>
 
               <span className="text-sm">
                 <label className="text-gray-400 font-medium text-xs">To</label>
-                <p>2024</p>
+                <p>{education.endDate || "-"}</p>
               </span>
 
               <span className="text-sm">
                 <label className="text-gray-400 font-medium text-xs">
                   School
                 </label>
-                <p>
-                  Indian Institute of Engineering Science and Technology, Shepur
-                </p>
+                <p>{education.school || "-"}</p>
               </span>
             </div>
           ))}
@@ -68,7 +70,7 @@ const TabContent: FC<{ tab: number }> = ({ tab }) => {
     case 2:
       return (
         <div className="flex flex-col gap-4">
-          {Array.from(Array(3)).map((each, index) => (
+          {details.workExperiences.map((experience, index) => (
             <div
               key={index}
               className="border-[0.5px] rounded-lg grid grid-cols-2 gap-y-4 p-6"
@@ -77,63 +79,40 @@ const TabContent: FC<{ tab: number }> = ({ tab }) => {
                 <label className="text-gray-400 font-medium text-xs">
                   Company
                 </label>
-                <p>Amazon Development Center</p>
+                <p>{experience.company || "-"}</p>
               </span>
 
               <span className="text-sm">
                 <label className="text-gray-400 font-medium text-xs">
                   Role
                 </label>
-                <p>KDP Analyst</p>
+                <p>{experience.role || "-"}</p>
               </span>
 
               <span className="text-sm">
                 <label className="text-gray-400 font-medium text-xs">
                   From
                 </label>
-                <p>2019</p>
+                <p>{experience.startDate || "-"}</p>
               </span>
 
               <span className="text-sm">
                 <label className="text-gray-400 font-medium text-xs">To</label>
-                <p>2022</p>
+                <p>{experience.endDate || "-"}</p>
               </span>
 
               <span className="text-sm">
                 <label className="text-gray-400 font-medium text-xs">
                   Location
                 </label>
-                <p>Hyderabad, India</p>
+                <p>{experience.location || "-"}</p>
               </span>
 
               <span className="text-sm col-span-2">
                 <label className="text-gray-400 font-medium text-xs">
                   Description
                 </label>
-                <p className="text-justify">
-                  To access and improve the performance of KDP business by
-                  interpreting different forms of data. Automated the data
-                  reporting process by collecting data from different
-                  sources(Excel, SQL, Tableau). Improved the customer service
-                  experience over the website by creating dashboards using power
-                  BI. Analyzed publisher&apos;s Data and used the output to
-                  automate the process using selenium so that publishing books
-                  will be easy for the publishers. Automation helped in
-                  decreasing the manual problem solving by 50%. Communicate with
-                  the publishers and gathering all sort of issues they&apos;re
-                  facing during publishing the books. The gathered information
-                  was useful for us to design strategies based on regression
-                  analysis. Also worked with the internal development and QA
-                  teams to resolve the issues or bugs and reprocess the books
-                  which are stuck due to these issues. Handle various tools
-                  which to resolve the formatting issues involved and also the
-                  concerns related to availability of the books published on
-                  Amazon. Super headed a process restructure to automatically
-                  detect the fraudulent books which are submitted to be
-                  published which again helped us in reducing the manual
-                  verification. Coached new joiners with all the process
-                  knowledge to be gained before hitting to the work.
-                </p>
+                <p className="text-justify">{experience.description || "-"}</p>
               </span>
             </div>
           ))}
@@ -142,12 +121,12 @@ const TabContent: FC<{ tab: number }> = ({ tab }) => {
     case 3:
       return (
         <div className="flex gap-2 flex-wrap">
-          {Array.from(Array(550)).map((each, index) => (
+          {details.skills.map((skill, index) => (
             <span
               key={index}
               className="inline-flex items-center rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600"
             >
-              Node.js
+              {skill}
             </span>
           ))}
         </div>
@@ -157,7 +136,7 @@ const TabContent: FC<{ tab: number }> = ({ tab }) => {
   }
 };
 
-const Tabs = () => {
+const Tabs: FC<{ details: UserData }> = ({ details }) => {
   const [currentItem, setCurrentItem] = useState<number>(1);
   return (
     <>
@@ -204,7 +183,7 @@ const Tabs = () => {
 
       {/* Tab content */}
       <div className="h-96 overflow-y-scroll">
-        <TabContent key={currentItem} tab={currentItem} />
+        <TabContent key={currentItem} tab={currentItem} details={details} />
       </div>
     </>
   );

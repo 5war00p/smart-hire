@@ -2,11 +2,13 @@ import { FC, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import IconCross from "./icons/IconCross";
 import Tabs from "./Tabs";
+import { UserData } from "@/utils/types";
 
 const CandidateDetailsModal: FC<{
+  details: UserData;
   isOpen: boolean;
   onClose: () => void;
-}> = ({ isOpen, onClose }) => {
+}> = ({ details, isOpen, onClose }) => {
   return (
     <Transition show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={onClose}>
@@ -47,25 +49,28 @@ const CandidateDetailsModal: FC<{
                   <div className="flex flex-col sm:flex-row min-w-0 gap-4">
                     <span className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-indigo-200">
                       <span className="text-xl font-medium leading-none text-gray-700">
-                        LM
+                        {details.name
+                          .match(/(\b\S)?/g)
+                          ?.join("")
+                          .toUpperCase()}
                       </span>
                     </span>
                     <div className="min-w-0 flex-auto">
                       <p className="text-sm font-semibold leading-6 text-gray-900">
-                        Linda Moore
+                        {details.name}
                       </p>
                       <p className="mt-1 truncate text-xs text-gray-500">
-                        elizabethhernandez53@mail.com
+                        {details.email}
                       </p>
                       <p className="mt-1 truncate text-xs text-gray-500">
-                        +1-752-676-3840
+                        {details.phone}
                       </p>
                       <p className="mt-1 truncate text-xs text-gray-500">
-                        Charlotte, USA
+                        {details.location}
                       </p>
                     </div>
                   </div>
-                  <Tabs />
+                  <Tabs details={details} />
                 </div>
               </Dialog.Panel>
             </Transition.Child>

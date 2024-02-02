@@ -1,33 +1,12 @@
 "use client";
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useState } from "react";
 import dynamic from "next/dynamic";
 import { UserData } from "@/utils/types";
 
 const CandidateDetailsModal = dynamic(() => import("./CandidateDetailsModal"));
 
-const MessageCard: FC<{ stringifiedData?: string }> = ({ stringifiedData }) => {
+const MessageCard: FC<{ data: UserData }> = ({ data }) => {
   const [showDetails, setShowDetails] = useState(false);
-
-  const data = useMemo(() => {
-    if (stringifiedData) {
-      const candidatesData = JSON.parse(stringifiedData ?? "[]") as Array<
-        Record<string, any>
-      >;
-
-      return candidatesData.map((candidate) => ({
-        ...candidate,
-        workExperiences:
-          candidate.workExperiences !== ""
-            ? JSON.parse(candidate.workExperiences ?? [])
-            : [],
-        educations:
-          candidate.educations !== ""
-            ? JSON.parse(candidate.educations ?? [])
-            : [],
-      })) as UserData[];
-    }
-    return [];
-  }, [stringifiedData]);
 
   return (
     <>
@@ -35,21 +14,20 @@ const MessageCard: FC<{ stringifiedData?: string }> = ({ stringifiedData }) => {
         <div className="flex flex-col sm:flex-row min-w-0 gap-4">
           <span className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-indigo-200">
             <span className="text-xl font-medium leading-none text-gray-700">
-              LM
+              {data.name
+                .match(/(\b\S)?/g)
+                ?.join("")
+                .toUpperCase()}
             </span>
           </span>
           <div className="min-w-0 flex-auto">
             <p className="text-sm font-semibold leading-6 text-gray-900">
-              Linda Moore
+              {data.name}
             </p>
+            <p className="mt-1 truncate text-xs text-gray-500">{data.email}</p>
+            <p className="mt-1 truncate text-xs text-gray-500">{data.phone}</p>
             <p className="mt-1 truncate text-xs text-gray-500">
-              elizabethhernandez53@mail.com
-            </p>
-            <p className="mt-1 truncate text-xs text-gray-500">
-              +1-752-676-3840
-            </p>
-            <p className="mt-1 truncate text-xs text-gray-500">
-              Charlotte, USA
+              {data.location}
             </p>
           </div>
         </div>
@@ -63,6 +41,7 @@ const MessageCard: FC<{ stringifiedData?: string }> = ({ stringifiedData }) => {
         </div>
       </div>
       <CandidateDetailsModal
+        details={data}
         isOpen={showDetails}
         onClose={() => setShowDetails(false)}
       />

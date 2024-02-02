@@ -1,5 +1,5 @@
 "use client";
-import MessageCard from "./MessageCard";
+import ResultList from "./ResultsList";
 import Suggestions from "./Suggestions";
 import IconSparkle from "./icons/IconSparkle";
 import IconUser from "./icons/IconUser";
@@ -36,7 +36,7 @@ const ChatContainer: FC<{
                 <IconUser className="w-5 h-5" />
               </span>
             )}
-            <div>
+            <div className="w-full">
               <p className="font-semibold">
                 {message.role === "assistant" ? "Assistant" : "You"}
               </p>
@@ -45,7 +45,7 @@ const ChatContainer: FC<{
                 {message.role === "assistant" &&
                   !!responses[index] &&
                   responses[index] !== "[]" && (
-                    <MessageCard stringifiedData={message.candidates} />
+                    <ResultList stringifiedData={responses[index]} />
                   )}
               </div>
             </div>

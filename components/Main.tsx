@@ -33,6 +33,15 @@ const Main = () => {
           [prev.chat.length]: data.candidates,
         },
       }));
+    } else if (data && "candidates" in data && data.candidates !== "[]") {
+      setAppState((prev) => ({
+        ...prev,
+        chat: [...prev.chat, { role: data.role, content: "" }],
+        responses: {
+          ...prev.responses,
+          [prev.chat.length]: data.candidates,
+        },
+      }));
     }
   }, [data]);
 
@@ -49,7 +58,7 @@ const Main = () => {
           type="text"
           name="search"
           value={appState.query}
-          className="block w-full rounded-xl border-0 p-4 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 placeholder:text-ellipsis focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
+          className="block w-full rounded-xl border-0 p-4 pr-16 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 placeholder:text-ellipsis focus:ring-inset focus:outline-none sm:text-sm sm:leading-6"
           placeholder="Suggest me a top ranked Next.js developer"
           onChange={(e) =>
             setAppState((prev) => ({ ...prev, query: e.target.value }))
@@ -60,7 +69,8 @@ const Main = () => {
             type="button"
             disabled={!appState.query}
             className="rounded-lg disabled:bg-gray-300 bg-indigo-600 p-2 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               setAppState((prev) => ({
                 ...prev,
                 chat: [...prev.chat, { role: "user", content: appState.query }],
