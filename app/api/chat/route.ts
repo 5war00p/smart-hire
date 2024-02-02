@@ -5,7 +5,7 @@ import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 
 export const runtime = "edge";
 
-export const getCandidates = async (
+const getCandidates = async (
   skills: string,
   budgetRange: string,
   employmentType: string,
