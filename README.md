@@ -15,3 +15,7 @@ pnpm dev
 ### Setup ENV
 
 Follow the env keys from `.env.example` and set your own values by creating `.env` file.
+
+## How it works?
+
+Will be updated soon..
