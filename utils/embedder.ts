@@ -1,7 +1,6 @@
 import openai from "@/app/_clients/openai";
 import { PineconeRecord } from "@pinecone-database/pinecone/dist/data/types";
 import { UserData } from "@/utils/types";
-import { randomUUID } from "crypto";
 
 class Embedder {
   async embedQuery(data: string): Promise<number[]> {
@@ -17,12 +16,41 @@ class Embedder {
 
   async embedUserRecord(data: UserData): Promise<PineconeRecord> {
     try {
-      const doc = `${data.name} have knowledge in ${data.skills.join(" ")}
-           and can contribute ${
-             data.fullTimeStatus === "yes"
-               ? ` either part-time for $${data.partTimeSalary} per month or full-time for $${data.fullTimeSalary} per month`
-               : `only part-time for ${data.partTimeSalary} per month`
-           }`;
+      const doc = `
+      Candidate details:
+        - Name: ${data.name}
+        - Location: ${data.location}
+        - Email: ${data.email}
+        - Phone: ${data.phone}
+        - PreferredRole: ${data.preferredRole}
+        - InterestedInFullTime: ${
+          data.fullTime === 1 || data.fullTimeStatus === "both"
+        }
+        - InterestedInPartTime: ${
+          data.partTime === 1 || data.fullTimeStatus === "both"
+        };
+        - WorkAvailability: ${data.workAvailability}
+        - ExpectedFullTimeSalary: ${data.fullTimeSalary}
+        - ExpectedPartTimeSalary: ${data.partTimeSalary}
+        - FullTimeAvailability: ${data.fullTimeAvailability}
+        - PartTimeAvailability:${data.partTimeAvailability}
+        - Skills: ${data.skills}
+        - Educations: ${data.educations}
+        - WorkExperiences: ${data.workExperiences}
+      `;
+
+      // ? Approach-1: Constraining some fields by making into a sentence with required fields
+      // const doc = `${data.name} have knowledge in ${data.skills.join(
+      //   " "
+      // )} with having experiences of ${
+      //   data.workExperiences
+      // } and qualifications of ${data.educations}
+      //      and can contribute ${
+      //        data.fullTimeStatus === "yes"
+      //          ? ` either part-time for $${data.partTimeSalary} per month or full-time for $${data.fullTimeSalary} per month`
+      //          : `only part-time for ${data.partTimeSalary} per month`
+      //      }`;
+
       // Generate OpenAI embeddings for the user data
       const embedding = await openai.getEmbeddings(doc);
 

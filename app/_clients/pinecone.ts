@@ -15,11 +15,13 @@ class Pinecone {
     });
   }
 
-  public async getIndex(): Promise<IndexModel> {
+  public async getIndex(
+    customIndexName: string = indexName
+  ): Promise<IndexModel> {
     const indexList = await this.pinecone.listIndexes();
 
     const prevIndex = indexList.indexes?.find(
-      (index) => index.name === indexName
+      (index) => index.name === customIndexName
     );
     if (!prevIndex) {
       return this.pinecone.createIndex({

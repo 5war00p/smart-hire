@@ -64,7 +64,10 @@ const Main = () => {
             setAppState((prev) => ({ ...prev, query: e.target.value }))
           }
         />
-        <div className="cursor-pointer absolute inset-y-0 right-0 flex items-center pr-3">
+        <div
+          className="cursor-pointer absolute inset-y-0 right-0 flex items-center pr-3"
+          onClick={(e) => e.stopPropagation()}
+        >
           <button
             type="button"
             disabled={!appState.query}

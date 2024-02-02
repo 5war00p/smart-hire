@@ -8,11 +8,12 @@ export const runtime = "edge";
 export const getCandidates = async (
   skills: string,
   budgetRange: string,
-  employmentType: string
+  employmentType: string,
+  yearsOfExperience: string
 ) => {
   const query = `Get me candidates who's skills 
     matches fully or partially with these skills: ${skills} under budget 
-    range of ${budgetRange} with the availability of ${employmentType}`;
+    range of ${budgetRange} with the availability of ${employmentType} having ${yearsOfExperience} experience`;
 
   const embeddings = await embedder.embedQuery(query);
 
@@ -41,7 +42,9 @@ export async function POST(request: Request) {
              - Assistant must provide a feedback message to the user e.g. "I'm processing results for you" before calling getCandidates function and don't mention anything about function calling.
 
             Function
-             - getCandidates, to the all matched candidates with the given skills, budgetRange and employmentType
+             - getCandidates, to the all matched candidates with the given skills, budgetRange, employmentType and years of experience
+
+            Note: Consider $ as US Dollars if none mentioned
           `,
         },
         ...requestBody.chat,
@@ -69,6 +72,10 @@ export async function POST(request: Request) {
                   type: "string",
                   description: "Employment type, e.g. part-time, full-time",
                 },
+                yearsOfExperience: {
+                  type: "string",
+                  description: "Experience required, e.g. > 2 years",
+                },
               },
               required: ["skills", "budgetRange", "employmentType"],
             },
@@ -85,8 +92,12 @@ export async function POST(request: Request) {
       const functionResponse = await getCandidates(
         functionArgs.skills,
         functionArgs.budgetRange,
-        functionArgs.employmentType
+        functionArgs.employmentType,
+        functionArgs.yearsOfExperience
       );
+
+      // DEBT: Waiting for message (second response) after tool calling increases latency
+
       // const secondResponse = await openai.openai.chat.completions.create({
       //   model: "gpt-4-1106-preview",
       //   messages: [
@@ -102,7 +113,7 @@ export async function POST(request: Request) {
 
       return Response.json({
         role: "assistant",
-        content: message, //secondResponse.choices[0].message.content,
+        content: message, // secondResponse.choices[0].message.content,
         candidates: functionResponse,
       });
     }
