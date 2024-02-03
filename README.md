@@ -36,11 +36,30 @@ Follow the env keys from `.env.example` and set your own values by creating `.en
 <br/>
 User can initiate a query either by clicking one of the suggestion or entering own query. Once the query is submitted, Assistant will process it.
 
-Assistant is instructed to carry out the following tasks:
+System provides us an instructed Assistant to carry out the following tasks:
 1. Keeps context of entire session (chat)
 2. Process the query and look for required params
 3. If any data/clarifications needed then ask follow up questions to the user
 4. Execute a tool_call(_**getCandidates**_ fuction_call) when the required details are obtained.
+
+The instructions to system is given as like below:
+```ts
+{
+  role: "system",
+  content: `A helpful chat assistant for recruiters of a job portal.
+
+    Duties of assistant:
+     - Making sure that user has given skills, budget and nature of employment (part-time/full-time) before calling getCandidates function.
+     - If user has entered insufficient info then followup with relevant questions by using the entire chat as a context.
+     - Assistant must provide a feedback message to the user e.g. "I'm processing results for you" before calling getCandidates function and don't mention anything about function calling.
+
+    Function
+     - getCandidates, to the all matched candidates with the given skills, budgetRange, employmentType and years of experience
+
+    Note: Consider $ as US Dollars if none mentioned
+  `,
+},
+```
 
 
 The current implementation uses ChatCompleteion API as we depend on simple RAG interactions, by passing the entire chat as context for every query. The reason for this is this application doesn't need more chat to keep in the context, it will be hardly 5-10 prompts and then results. But this can be done with Assistant's API without local context management.
