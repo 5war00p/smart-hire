@@ -11,8 +11,7 @@ class Pinecone {
 
   public constructor() {
     this.pinecone = new pc({
-      apiKey:
-        process.env.PINECONE_API_KEY ?? "d037fc31-4cbc-4a71-847f-eb755857c3b8",
+      apiKey: process.env.PINECONE_API_KEY ?? "",
     });
   }
 

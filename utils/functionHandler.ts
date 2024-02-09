@@ -1,5 +1,24 @@
-import { getCandidates } from "@/app/api/chat/route";
-import { ChatRequest, FunctionCallHandler, nanoid } from "ai";
+import { FunctionCallHandler, nanoid } from "ai";
+
+const getCandidates = async (
+  skills: string,
+  budgetRange: string,
+  employmentType: string,
+  yearsOfExperience: string
+) => {
+  const response = await fetch("/api/candidates", {
+    method: "POST",
+    body: JSON.stringify({
+      skills,
+      budgetRange,
+      employmentType,
+      yearsOfExperience,
+    }),
+  });
+
+  const json = await response.json();
+  return json.matches;
+};
 
 export const functionCallHandler: FunctionCallHandler = async (
   chatMessages,

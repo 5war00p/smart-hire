@@ -5,27 +5,8 @@ import {
   StreamingTextResponse,
   experimental_StreamData,
 } from "ai";
-import pinecone from "@/app/_clients/pinecone";
-import embedder from "@/utils/embedder";
 
 export const runtime = "edge";
-
-export const getCandidates = async (
-  skills: string,
-  budgetRange: string,
-  employmentType: string,
-  yearsOfExperience: string
-) => {
-  const query = `Get me candidates who's skills 
-      matches fully or partially with these skills: ${skills} under budget 
-      range of ${budgetRange} with the availability of ${employmentType} having ${yearsOfExperience} experience`;
-
-  const embeddings = await embedder.embedQuery(query);
-
-  const matches = await pinecone.getMatchesFromEmbeddings(embeddings, 2);
-
-  return JSON.stringify(matches);
-};
 
 const functions: Function[] = [
   {
@@ -109,7 +90,6 @@ export async function POST(request: Request) {
     return Response.json({
       status: 500,
       message: "Something went wrong!",
-      err,
     });
   }
 }
