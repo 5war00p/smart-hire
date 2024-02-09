@@ -1,5 +1,5 @@
+import { useAppState } from "@/hooks/useAppContext";
 import IconReturn from "./icons/IconReturn";
-import { Dispatch, FC, SetStateAction } from "react";
 
 const suggestionList = [
   {
@@ -19,9 +19,9 @@ const suggestionList = [
     description: "who are capable of handling both JS/TS and Python",
   },
 ];
-const Suggestions: FC<{
-  setInput: Dispatch<SetStateAction<string>>;
-}> = ({ setInput }) => {
+const Suggestions = () => {
+  const [_, setAppState] = useAppState();
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
       {suggestionList.map((suggestion, index) => (
@@ -29,7 +29,10 @@ const Suggestions: FC<{
           key={index}
           className="relative rounded-lg border text-sm p-4 hover:cursor-pointer group hover:bg-gray-100"
           onClick={() =>
-            setInput(`${suggestion.title} ${suggestion.description}`)
+            setAppState((prev) => ({
+              ...prev,
+              query: `${suggestion.title} ${suggestion.description}`,
+            }))
           }
         >
           <p className="font-medium text-ellipsis">{suggestion.title}</p>
