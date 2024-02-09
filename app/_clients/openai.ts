@@ -3,7 +3,10 @@ import OpenAI from "openai";
 class OpenAi {
   public openai: OpenAI;
   public constructor() {
-    this.openai = new OpenAI();
+    this.openai = new OpenAI({
+      apiKey: "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",
+      dangerouslyAllowBrowser: true,
+    });
   }
 
   public async getEmbeddings(input: string) {
