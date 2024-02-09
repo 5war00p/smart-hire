@@ -5,7 +5,7 @@ const IconStopCircle: FC<{ className?: string }> = ({ className }) => {
     <svg
       stroke="currentColor"
       fill="currentColor"
-      stroke-width="0"
+      strokeWidth="0"
       viewBox="0 0 512 512"
       height="24px"
       width="24px"

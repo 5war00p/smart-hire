@@ -1,0 +1,40 @@
+import { getCandidates } from "@/app/api/chat/route";
+import { ChatRequest, FunctionCallHandler, nanoid } from "ai";
+
+export const functionCallHandler: FunctionCallHandler = async (
+  chatMessages,
+  functionCall
+) => {
+  if (functionCall.name === "getCandidates") {
+    if (functionCall.arguments) {
+      // Parsing here does not always work since it seems that some characters in generated code aren't escaped properly.
+      const parsedFunctionCallArguments: {
+        skills: string;
+        budgetRange: string;
+        employmentType: string;
+        yearsOfExperience: string;
+      } = JSON.parse(functionCall.arguments);
+
+      const matches = await getCandidates(
+        parsedFunctionCallArguments.skills as string,
+        parsedFunctionCallArguments.budgetRange as string,
+        parsedFunctionCallArguments.employmentType as string,
+        parsedFunctionCallArguments.yearsOfExperience as string
+      );
+
+      const functionResponse = {
+        messages: [
+          ...chatMessages,
+          {
+            id: nanoid(),
+            name: "getCandidates",
+            role: "function" as const,
+            content: functionCall.arguments,
+            data: matches,
+          },
+        ],
+      };
+      return functionResponse;
+    }
+  }
+};
